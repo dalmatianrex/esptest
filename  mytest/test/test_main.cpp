@@ -66,9 +66,12 @@ void test_gps(void)
     {
         gps.encode(Serial1.read());
     }
-
-    numSatellites = gps.satellites.value();
-
+    while(numSatellites == 0)
+    {
+        numSatellites = gps.satellites.value();
+        delay(1000);
+    }
+    
     if (numSatellites > 0)
     {
         latitude = gps.location.lat();
@@ -82,10 +85,7 @@ void test_gps(void)
         Serial.println(longitude, 8);
         Serial.println("**********************");
     }
-    else
-    {
-        Serial.print("No satalit    tes found!")
-    }
+    
     
 }
 
