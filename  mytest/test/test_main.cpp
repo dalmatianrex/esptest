@@ -4,6 +4,7 @@
 #include <unity.h>
 #include <..\src\ESP32_defines.h>
 #include <TinyGPS++.h>
+#include "WiFi.h"
 
 // void setUp(void) {
 // // set stuff up here
@@ -20,12 +21,14 @@ void test_on_board_led(void)
 
 void test_led_state_high(void)
 {
+    pinMode(ON_BOARD_LED, OUTPUT);
     digitalWrite(ON_BOARD_LED, HIGH);
     TEST_ASSERT_EQUAL(HIGH, digitalRead(ON_BOARD_LED));
 }
 
 void test_led_state_low(void)
 {
+    pinMode(ON_BOARD_LED, OUTPUT);
     digitalWrite(ON_BOARD_LED, LOW);
     TEST_ASSERT_EQUAL(LOW, digitalRead(ON_BOARD_LED));
 }
@@ -66,12 +69,12 @@ void test_gps(void)
     {
         gps.encode(Serial1.read());
     }
-    while(numSatellites == 0)
+    while (numSatellites == 0)
     {
         numSatellites = gps.satellites.value();
         delay(1000);
     }
-    
+
     if (numSatellites > 0)
     {
         latitude = gps.location.lat();
@@ -85,24 +88,57 @@ void test_gps(void)
         Serial.println(longitude, 8);
         Serial.println("**********************");
     }
-    
-    
 }
 
+void test_on_board_button(void)
+{
+    TEST_ASSERT_EQUAL(39, ON_BOARD_SWITCH);
+}
+
+void test_button()
+{
+    int button_state = 1;
+    int old_button_state = 0;
+
+    pinMode(ON_BOARD_SWITCH, INPUT);
+
+    ///get original state
+    old_button_state = digitalRead(ON_BOARD_SWITCH);
+
+    while (button_state == old_button_state)
+    {
+        button_state = digitalRead(ON_BOARD_SWITCH);
+        delay(100);
+    }
+}
+
+void test_wifi_scanner()
+{
+    WiFi.mode(WIFI_STA);
+    WiFi.disconnect();
+    delay(1000);
+
+     // WiFi.scanNetworks will return the number of networks found
+    int numNetworks = WiFi.scanNetworks();
+    TEST_ASSERT_TRUE(numNetworks > 0);
+
+}
 void setup()
 {
     // NOTE!!! Wait for >2 secs
     delay(2000);
-    pinMode(ON_BOARD_LED, OUTPUT);
 
-    UNITY_BEGIN(); // IMPORTANT LINE!
+    UNITY_BEGIN(); 
 
     RUN_TEST(test_on_board_led);
+    RUN_TEST(test_on_board_button);
     RUN_TEST(test_led_state_high);
     RUN_TEST(test_led_state_low);
     RUN_TEST(test_i2c_bus);
     RUN_TEST(test_battery);
-    RUN_TEST(test_gps);
+    RUN_TEST(test_wifi_scanner);
+    //RUN_TEST(test_gps);
+    //RUN_TEST(test_button);
     UNITY_END(); // stop unit testing
 }
 

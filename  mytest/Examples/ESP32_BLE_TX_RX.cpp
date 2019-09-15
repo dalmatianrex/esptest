@@ -5,7 +5,7 @@
 #include <BLEUtils.h>
 #include <BLE2902.h>
 
-bool deviceConnected = false;
+
 
 // https://www.uuidgenerator.net/
 
@@ -15,18 +15,19 @@ bool deviceConnected = false;
 
 BLECharacteristic *pCharacteristicRX;
 BLECharacteristic *pCharacteristicTX;
+bool connected = false;
 
 class MyServerCallbacks : public BLEServerCallbacks
 {
   void onConnect(BLEServer *pServer)
   {
-    deviceConnected = true;
+    connected = true;
     Serial.printf("Connected to BLE Server \n");
   }
 
   void onDisconnect(BLEServer *pServer)
   {
-    deviceConnected = false;
+    connected = false;
     Serial.printf("Disconnected from BLE Server \n");
   }
 };
@@ -45,6 +46,7 @@ class MyCallbacks : public BLECharacteristicCallbacks
       {
         Serial.print(receivedData[i]);
       }
+      Serial.printf("\n");
     }
   }
 };
@@ -83,7 +85,7 @@ void setup()
 
 void loop()
 {
-  if (deviceConnected)
+  if (connected)
   {
     int batteryLevel = analogRead(BATTERY_INPUT); 
 

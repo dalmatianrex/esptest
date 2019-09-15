@@ -15,7 +15,7 @@
 #define GPS_TX 12
 #define GPS_RX 15
 #define GPS_RESOLUTION 8
-#define LOOP_DELAY 1000 * 5
+#define LOOP_DELAY 1000
 #define BATTERY_INPUT 35
 #define ANALOG_MAX_VALUE 4095
 #define MAX_BATTERY_VOLTAGE 3.3
