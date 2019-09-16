@@ -4,7 +4,7 @@
 #define SERIAL_1_SPEED 9600
 #define SCK 5   
 #define MISO 19 
-#define MOSI 27 I
+#define MOSI 27 
 #define SS 18  
 #define RST 14  
 #define DI0 26  
