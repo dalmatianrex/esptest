@@ -1,47 +1,75 @@
-  
-/*
-  ESP32 LoRa receiver
-*/
-
 #include <Arduino.h>
-#include <SPI.h>
-#include <LoRa.h>
 #include <..\src\ESP32_defines.h>
+#include "SPIFFS.h"
+#include <ArduinoJson.h>
 
-unsigned int counter = 0;
- 
-void setup() 
+// An example of an esp32 program that opens a file called hello.txt using SPIFFS
+// to upload the file create a folder called data at the same level as \src
+// in the data folder add anew file called hello.txt and save some text in it
+// using platformio Run “Upload File System image” task
+
+struct Data_file
 {
-  Serial.begin(SERIAL_0_SPEED);
-  Serial.println("LoRa Receiver Test");
-  
-  SPI.begin(SCK,MISO,MOSI,SS);
-  LoRa.setPins(SS,RST,DI0);
+  float temp;
+  int num_boots;
+} data;
 
-  if (!LoRa.begin(LORA_BAND)) 
+const char *fileName = "/data.json";
+
+void load_data()
+{
+  if (!SPIFFS.begin(true))
   {
-    Serial.println("LoRa failed!");
-    while (1);
+    Serial.println("An Error has occurred while mounting SPIFFS");
+    return;
   }
-  LoRa.receive();
-  LoRa.setSyncWord(LORA_SYNC_WORD);
-  Serial.println("LoRa Init ok");
+
+  File file = SPIFFS.open(fileName);
+  if (!file)
+  {
+    Serial.println("Failed to open file for reading");
+    return;
+  }
+
+  StaticJsonDocument<500> doc;
+
+  DeserializationError error = deserializeJson(doc, file);
+  if (error)
+  {
+    Serial.println("Failed to read file");
+  }
+
+  //load data
+  data.temp = doc["temp"];
+  data.num_boots = doc["num_boots"];
+
+  file.close();
+}
+void save_data()
+{
+  File file = SPIFFS.open(fileName, "w");
+  StaticJsonDocument<500> doc;
+
+  doc["temp"] = data.temp;
+  doc["num_boots"] = data.num_boots;
+
+  if (serializeJson(doc, file) == 0)
+  {
+    Serial.println(F("Failed to write to file"));
+  }
+  file.close();
 }
 
-void loop() 
+void setup()
 {
-  int packetSize = LoRa.parsePacket();
-  if (packetSize) 
-  {
-    // received a packet
-    Serial.print("Received packet: ");
+  Serial.begin(SERIAL_0_SPEED);
+  load_data();
+  data.num_boots++;
+  Serial.printf("Num boots: %d \n", data.num_boots);
 
-    // read packet
-    while (LoRa.available()) 
-    {
-      String LoRaData = LoRa.readString();
-      Serial.println(LoRaData); 
-    }
-  }
-  
+  save_data();
+}
+
+void loop()
+{
 }
