@@ -1,11 +1,14 @@
+/*
+  ESP32 demonstration code - Dr Paul Lunn
+
+*/
+
 #include <Arduino.h>
 #include <..\src\ESP32_defines.h>
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
 #include <BLE2902.h>
-
-
 
 // https://www.uuidgenerator.net/
 

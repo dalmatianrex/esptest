@@ -1,16 +1,21 @@
+/*
+  ESP32 demonstration code - Dr Paul Lunn
+
+*/
+
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <..\src\ESP32_defines.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-String WIFI_NAME = "VM0620124";        // Your Wifi name
-String WIFI_PASSWORD = "dd3hbQdjsjds"; // Your Wifi password
+String WIFI_NAME = "";        // Your Wifi name
+String WIFI_PASSWORD = ""; // Your Wifi password
 WiFiServer server(80);
 
 String API_BASE = "http://api.openweathermap.org/data/2.5/weather?";
 String API_LAT_LONG = "lat=35&lon=139";
-String API_KEY = "&APPID=e6e4fa8bf4732af6e9b3c0439ac0f359";
+String API_KEY = "&APPID=";
 
 String URL = API_BASE + API_LAT_LONG + API_KEY;
 

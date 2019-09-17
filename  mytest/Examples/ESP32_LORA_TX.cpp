@@ -1,5 +1,6 @@
 /*
-  ESP32 LoRa sender
+  ESP32 demonstration code - Dr Paul Lunn
+
 */
 
 #include <Arduino.h>
