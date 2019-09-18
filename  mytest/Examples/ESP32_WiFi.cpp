@@ -1,6 +1,6 @@
 /*
   ESP32 demonstration code - Dr Paul Lunn
-
+  Simple Wifi connection
 */
 
 #include <Arduino.h>

@@ -1,6 +1,6 @@
 /*
   ESP32 demonstration code - Dr Paul Lunn
-
+  code for scanning for nearby BLE enabled devices
 */
 #include <Arduino.h>
 #include <..\src\ESP32_defines.h>

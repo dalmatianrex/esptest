@@ -1,6 +1,6 @@
 /*
   ESP32 demonstration code - Dr Paul Lunn
-
+  Demo code for communncating with BLE devices
 */
 
 #include <Arduino.h>

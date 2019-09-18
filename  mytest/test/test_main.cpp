@@ -1,3 +1,8 @@
+/*
+  ESP32 demonstration code - Dr Paul Lunn
+  Testing ESP32 through unity
+*/
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <vector>
@@ -5,14 +10,6 @@
 #include <..\src\ESP32_defines.h>
 #include <TinyGPS++.h>
 #include "WiFi.h"
-
-// void setUp(void) {
-// // set stuff up here
-// }
-
-// void tearDown(void) {
-// // clean stuff up here
-// }
 
 void test_on_board_led(void)
 {
@@ -137,8 +134,8 @@ void setup()
     RUN_TEST(test_i2c_bus);
     RUN_TEST(test_battery);
     RUN_TEST(test_wifi_scanner);
-    //RUN_TEST(test_gps);
-    //RUN_TEST(test_button);
+    RUN_TEST(test_gps);
+    RUN_TEST(test_button);
     UNITY_END(); // stop unit testing
 }
 

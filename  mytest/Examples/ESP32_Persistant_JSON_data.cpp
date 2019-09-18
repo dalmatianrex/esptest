@@ -1,6 +1,6 @@
 /*
   ESP32 demonstration code - Dr Paul Lunn
-
+  data stored persistantly within a JSOn file in flash memory
 */
 
 #include <Arduino.h>

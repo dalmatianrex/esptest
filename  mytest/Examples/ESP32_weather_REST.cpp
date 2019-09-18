@@ -1,6 +1,6 @@
 /*
   ESP32 demonstration code - Dr Paul Lunn
-
+  Communicates through weather REST API and deserialises json response
 */
 
 #include <Arduino.h>

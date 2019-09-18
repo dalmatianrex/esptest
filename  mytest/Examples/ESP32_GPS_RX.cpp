@@ -1,6 +1,6 @@
 /*
   ESP32 demonstration code - Dr Paul Lunn
-
+  Code that communicates with GPS to recive co-ordinates
 */
 #include <Arduino.h>
 #include <..\src\ESP32_defines.h>
